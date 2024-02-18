@@ -91,14 +91,14 @@ AnimatorState:
   - {fileID: 2055986135686518138}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
-  m_Mirror: 0
+  m_Mirror: 1
   m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7297269004381136286, guid: 7f757cf90fbd8b748b8f8c70018eb1c2, type: 3}
+  m_Motion: {fileID: 7400000, guid: b93308aad2a050040b442a337227288f, type: 2}
   m_Tag: 
   m_SpeedParameter: jogSpeedMultiplier
   m_MirrorParameter: 
@@ -120,7 +120,7 @@ AnimatorState:
   - {fileID: -8373614844393945014}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -483,7 +483,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7552313372277969891}
-    m_Position: {x: 200, y: 140, z: 0}
+    m_Position: {x: 210, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7358699487179469749}
     m_Position: {x: -540, y: 40, z: 0}
@@ -508,7 +508,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jump
-  m_Speed: 1
+  m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6304960196443466104}

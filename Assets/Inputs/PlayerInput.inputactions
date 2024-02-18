@@ -153,6 +153,17 @@
                 },
                 {
                     "name": "",
+                    "id": "33cb5696-49d2-41c6-bda3-7668ccee2e84",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ae3e52a3-d660-4aec-b6a0-31991350e323",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
