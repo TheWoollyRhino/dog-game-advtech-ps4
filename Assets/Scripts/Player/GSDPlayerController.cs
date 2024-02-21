@@ -18,7 +18,10 @@ public class GSDPlayerController : MonoBehaviour
     //animator bools
 
     // movement variables
-    [HideInInspector] public bool speedBoostActive;
+    private Vector2 currentWalkingInput;
+    private Vector3 walking;
+    private bool walkPressed;
+
     private Vector2 currentJoggingInput;
     private Vector3 jogging;
     private bool jogPressed;
@@ -29,14 +32,10 @@ public class GSDPlayerController : MonoBehaviour
     private bool requireNewJumpPress;
     private float jumpHorizontalSpeed;
 
-    // double jump variables
-    [HideInInspector] public bool canDoubleJump;
-    private int maxJumps;
-    private int currentJumps;
-
     [Header("Controllers")]
     [SerializeField] [Range(0.1f, 1)] private float playerRotationSpeed = 0.4f;
-    [SerializeField] private float jumpForce = 6;
+    [SerializeField] private float movingJumpForce = 6;
+    [SerializeField] private float staticJumpForce = 3;
     //[SerializeField] private float walkSpeed = 60;
 
     void Awake()
@@ -71,9 +70,14 @@ public class GSDPlayerController : MonoBehaviour
         PlayerMovement();
         PlayerRotation();
     }
-
+    
     void OnMovementInput(InputAction.CallbackContext context)
     {
+        currentWalkingInput = context.ReadValue<Vector2>(); // set the walking vector value to the left gamepad stick coordinates
+        walking.x = currentWalkingInput.x;
+        walking.z = currentWalkingInput.y;
+        walkPressed = walking.x != 0 || walking.y != 0; // check if either the x or the y value in walkPressed is not 0
+
         currentJoggingInput = context.ReadValue<Vector2>(); // set the jogging vector value to the left gamepad stick coordinates
         jogging.x = currentJoggingInput.x;
         jogging.z = currentJoggingInput.y;
@@ -89,11 +93,10 @@ public class GSDPlayerController : MonoBehaviour
     void PlayerMovement()
     {
         bool isJogging = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isJoggingBool);
+        bool isWalking = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isWalkingBool);
 
         if (onGround)
         {
-            currentJumps = 0;
-
             playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, false);
 
             if (jogPressed && !isJogging)
@@ -104,9 +107,16 @@ public class GSDPlayerController : MonoBehaviour
             {
                 playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
             }
-            if (jumpPressed && !requireNewJumpPress)
+            if (jogPressed && jumpPressed && !requireNewJumpPress)
             {
-                playerRigidBody.velocity = Vector3.up * jumpForce;
+                playerRigidBody.velocity = Vector3.up * movingJumpForce;
+                requireNewJumpPress = true;
+            }
+            if (!jogPressed && jumpPressed && !requireNewJumpPress)
+            {
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, true);
+                playerRigidBody.velocity = Vector3.up * staticJumpForce;
                 requireNewJumpPress = true;
             }
         }
@@ -121,26 +131,7 @@ public class GSDPlayerController : MonoBehaviour
 
             playerRigidBody.velocity = (currentJoggingInput.y * jumpHorizontalSpeed * camForward) + (currentJoggingInput.x * jumpHorizontalSpeed * camRight) + fallingVelocity;
         }
-
-        // depending on _speedBoostActive, set _jumpHorizontalSpeed to 6 or 4
-        // _speedBoostActive is set from the SpeedBuff script
-        jumpHorizontalSpeed = speedBoostActive ? 6 : 4;
-
-        // The input system is registering the button press as a press and hold. a temporary solution
-        // is to have the player press quick enough so it only registers as 1 press each, which will
-        // allow for the double jump to work.
-        if (canDoubleJump)
-        {
-            maxJumps = 2;
-
-            if (jumpPressed && !onGround && currentJumps < maxJumps)
-            {
-                //playerRigidBody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-                Debug.Log(currentJumps);
-                playerRigidBody.velocity = Vector3.up * jumpForce;
-                currentJumps += 1;
-            }
-        }
+        jumpHorizontalSpeed = 4;
     }
 
     void PlayerRotation()

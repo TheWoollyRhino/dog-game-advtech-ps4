@@ -93,7 +93,7 @@ public class RPGCameraController : MonoBehaviour
         {
             // set the main camera local position Z axis to minus the distance between the CameraManager and the collision
             // point on the geometry
-            cameraTarget.transform.localPosition = new Vector3(0, playerTarget.transform.position.y + 1.15f, -Vector3.Distance(transform.position, hit.point) + 2f);
+            cameraTarget.transform.localPosition = new Vector3(0, playerTarget.transform.position.y, -Vector3.Distance(transform.position, hit.point) + 2f);
         }
         else
         {
