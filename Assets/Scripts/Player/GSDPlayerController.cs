@@ -13,7 +13,6 @@ public class GSDPlayerController : MonoBehaviour
     private Rigidbody playerRigidBody;
     private Transform playerCamera;
     private PlayerAnimationHashes playerAnimationHashes;
-	private Transform playerTransform;
 
     //animator bools
 
@@ -21,10 +20,7 @@ public class GSDPlayerController : MonoBehaviour
     private Vector2 currentWalkingInput;
     private Vector3 walking;
     private bool walkPressed;
-
-    private Vector2 currentJoggingInput;
-    private Vector3 jogging;
-    private bool jogPressed;
+    private bool runPressed;
 
     // jump variables
     private bool jumpPressed;
@@ -32,27 +28,36 @@ public class GSDPlayerController : MonoBehaviour
     private bool requireNewJumpPress;
     private float jumpHorizontalSpeed;
 
+    //interaction variables
+    private bool pickupPressed;
+
     [Header("Controllers")]
     [SerializeField] [Range(0.1f, 1)] private float playerRotationSpeed = 0.4f;
-    [SerializeField] private float movingJumpForce = 6;
-    [SerializeField] private float staticJumpForce = 3;
-    //[SerializeField] private float walkSpeed = 60;
+    //[SerializeField] private float staticJumpForce = 3;
+    //[SerializeField] private float walkingJumpForce = 6;
+    [SerializeField] private float runningJumpForce = 6;
 
     void Awake()
     {
         playerCamera = GameObject.Find("Player Camera").transform;
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
-        playerTransform = gameObject.transform;
 
         playerInput = new PlayerInput();
 
         playerAnimationHashes = gameObject.AddComponent<PlayerAnimationHashes>();
         playerAnimationHashes.animator = gameObject.GetComponent<Animator>();
 
-        playerInput.Player.Jog.performed += OnMovementInput;
-        playerInput.Player.Jog.canceled += OnMovementInput;
+        playerInput.Player.Walk.performed += OnWalkInput;
+        playerInput.Player.Walk.canceled += OnWalkInput;
+
+        playerInput.Player.Run.started += OnRunInput;
+        playerInput.Player.Run.canceled += OnRunInput;
+
         playerInput.Player.Jump.started += OnJumpInput;
-        playerInput.Player.Jump.canceled += OnJumpInput;
+        playerInput.Player.Jump.canceled += OnJumpInput;  
+        
+        playerInput.Player.Interact.started += OnInteractionInput;
+        playerInput.Player.Interact.canceled += OnInteractionInput;
     }
 
     private void OnEnable()
@@ -71,52 +76,62 @@ public class GSDPlayerController : MonoBehaviour
         PlayerRotation();
     }
     
-    void OnMovementInput(InputAction.CallbackContext context)
+    void OnWalkInput(InputAction.CallbackContext context)
     {
         currentWalkingInput = context.ReadValue<Vector2>(); // set the walking vector value to the left gamepad stick coordinates
         walking.x = currentWalkingInput.x;
         walking.z = currentWalkingInput.y;
         walkPressed = walking.x != 0 || walking.y != 0; // check if either the x or the y value in walkPressed is not 0
-
-        currentJoggingInput = context.ReadValue<Vector2>(); // set the jogging vector value to the left gamepad stick coordinates
-        jogging.x = currentJoggingInput.x;
-        jogging.z = currentJoggingInput.y;
-        jogPressed = jogging.x != 0 || jogging.y != 0; // check if either the x or the y value in jogPressed is not 0
     }
 
     void OnJumpInput(InputAction.CallbackContext context)
     {
         jumpPressed = context.ReadValueAsButton();
         requireNewJumpPress = false;
+    }   
+    
+    void OnRunInput(InputAction.CallbackContext context)
+    {
+        runPressed = context.ReadValueAsButton();
+    } 
+    
+    void OnInteractionInput(InputAction.CallbackContext context)
+    {
+        pickupPressed = context.ReadValueAsButton();
     }
 
     void PlayerMovement()
     {
-        bool isJogging = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isJoggingBool);
+        bool isRunning = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isRunningBool);
         bool isWalking = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isWalkingBool);
 
         if (onGround)
         {
-            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, false);
+            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, false);
 
-            if (jogPressed && !isJogging)
+            if (!isWalking && walkPressed)
             {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, true);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isWalkingBool, true);
             }
-            if (!jogPressed && isJogging)
+            if (isWalking && !walkPressed)
             {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isWalkingBool, false);
             }
-            if (jogPressed && jumpPressed && !requireNewJumpPress)
+            if (!isRunning && (walkPressed && runPressed))
             {
-                playerRigidBody.velocity = Vector3.up * movingJumpForce;
-                requireNewJumpPress = true;
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, true);
             }
-            if (!jogPressed && jumpPressed && !requireNewJumpPress)
+            if (isRunning && (!walkPressed || !runPressed))
             {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, true);
-                playerRigidBody.velocity = Vector3.up * staticJumpForce;
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, false);
+            }
+/*            if (isWalking && pickupPressed)
+            {
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, true);
+            }*/
+            if (isRunning && (jumpPressed && !requireNewJumpPress))
+            {
+                playerRigidBody.velocity = Vector3.up * runningJumpForce;
                 requireNewJumpPress = true;
             }
         }
@@ -129,7 +144,7 @@ public class GSDPlayerController : MonoBehaviour
             Vector3 camRight = new Vector3(playerCamera.right.x, 0, playerCamera.right.z);
             Vector3 fallingVelocity = new Vector3(0, playerRigidBody.velocity.y, 0);
 
-            playerRigidBody.velocity = (currentJoggingInput.y * jumpHorizontalSpeed * camForward) + (currentJoggingInput.x * jumpHorizontalSpeed * camRight) + fallingVelocity;
+            playerRigidBody.velocity = (currentWalkingInput.y * jumpHorizontalSpeed * camForward) + (currentWalkingInput.x * jumpHorizontalSpeed * camRight) + fallingVelocity;
         }
         jumpHorizontalSpeed = 4;
     }
@@ -138,9 +153,9 @@ public class GSDPlayerController : MonoBehaviour
     {
         // ROTATION
 
-        // jogging.x for the x axis, and jogging.y for the Z axis. So moving the stick up will go forward on the Z axis
+        // running.x for the x axis, and running.y for the Z axis. So moving the stick up will go forward on the Z axis
 
-        Vector3 playerMovement = new Vector3(currentJoggingInput.x, 0, currentJoggingInput.y);
+        Vector3 playerMovement = new Vector3(currentWalkingInput.x, 0, currentWalkingInput.y);
 
         if (playerMovement != Vector3.zero) // if the left gamepad stick is moving
         {

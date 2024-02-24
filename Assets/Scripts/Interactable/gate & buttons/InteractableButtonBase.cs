@@ -92,10 +92,10 @@ public class InteractableButtonBase : MonoBehaviour
                 cameraCutsceneBase.cutsceneCamera.enabled = true;
 
                 player.GetComponent<PlayerController>().enabled = false;
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, false);
                 playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, false);
                 player.transform.SetPositionAndRotation(playerInteractPosition.transform.position, Quaternion.LookRotation(playerInteractPosition.transform.right));
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPressingBool, true);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, true);
 
                 canvas.enabled = false;
                 Destroy(gameObject.GetComponent<SphereCollider>());
@@ -116,7 +116,7 @@ public class InteractableButtonBase : MonoBehaviour
             yield return new WaitForSeconds(4);
             cameraCutsceneBase.cutsceneCamera.enabled = false;
             cameraCutsceneBase.playerCamera.enabled = true;
-            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPressingBool, false);
+            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, false);
             player.GetComponent<PlayerController>().enabled = true;
             Destroy(gameObject.GetComponent<InteractableButtonBase>());
         }

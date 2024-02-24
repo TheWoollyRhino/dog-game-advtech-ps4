@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
         playerAnimationHashes = gameObject.AddComponent<PlayerAnimationHashes>();
         playerAnimationHashes.animator = gameObject.GetComponent<Animator>();
 
-        playerInput.Player.Jog.performed += OnMovementInput;
-        playerInput.Player.Jog.canceled += OnMovementInput;
+        playerInput.Player.Run.performed += OnMovementInput;
+        playerInput.Player.Run.canceled += OnMovementInput;
         playerInput.Player.Jump.started += OnJumpInput;
         playerInput.Player.Jump.canceled += OnJumpInput;
     }
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovement()
     {
-        bool isJogging = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isJoggingBool);
+        bool isJogging = playerAnimationHashes.animator.GetBool(playerAnimationHashes.isRunningBool);
 
         if (onGround)
         {
@@ -95,11 +95,11 @@ public class PlayerController : MonoBehaviour
 
             if (jogPressed && !isJogging)
             {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, true);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, true);
             }
             if (!jogPressed && isJogging)
             {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJoggingBool, false);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, false);
             }
 
             if (jumpPressed && !requireNewJumpPress)

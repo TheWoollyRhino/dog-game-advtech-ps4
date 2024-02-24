@@ -6,15 +6,6 @@
             "id": "2e05f4db-9601-48ad-9eaf-09676b12b07c",
             "actions": [
                 {
-                    "name": "Jog",
-                    "type": "Value",
-                    "id": "1913abe3-67bb-49d9-89c6-ae91236b87ad",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Walk",
                     "type": "Value",
                     "id": "8b3d01ea-4561-4faa-9195-be9536224776",
@@ -61,72 +52,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "f0df744d-d7e0-4ffc-9db7-aa4675182ded",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "StickDeadzone(min=0.5)",
-                    "groups": "Gamepad",
-                    "action": "Jog",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "32d3ec55-3a61-4de9-9772-243807ad4ddb",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jog",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "a315f5aa-b451-4364-aea8-5b8318b3d724",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jog",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "158312ce-e835-4d23-beca-754c4bfceba6",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jog",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "dd9d1bc6-c17e-4bd2-9831-676709c36c33",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jog",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "71fb7767-bdf5-49a7-8185-a7a14870cb15",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Jog",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "7252dbf3-6fd2-4745-b077-b34363c20fda",
@@ -187,7 +112,7 @@
                     "id": "be2f5347-0f1c-421b-a5eb-a1d5c7bdb994",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "StickDeadzone(min=0.5)",
+                    "processors": "StickDeadzone(min=0.3)",
                     "groups": "Gamepad",
                     "action": "Walk",
                     "isComposite": false,

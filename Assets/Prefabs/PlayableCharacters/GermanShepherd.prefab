@@ -1138,9 +1138,10 @@ GameObject:
   - component: {fileID: 674742379485625114}
   - component: {fileID: 3376499407195019048}
   - component: {fileID: 8357912241921120700}
+  - component: {fileID: 4176028417790540023}
   m_Layer: 0
   m_Name: GermanShepherd
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1297,10 +1298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9bf1741f875f44fa61b08bbe27bf16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBoostActive: 0
-  canDoubleJump: 0
   playerRotationSpeed: 0.1
-  jumpForce: 6
+  runningJumpForce: 4
 --- !u!136 &8357912241921120700
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1311,7 +1310,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1320,10 +1319,33 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.28
-  m_Height: 2
+  m_Radius: 4.6865177
+  m_Height: 12.57
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 6.1387854, z: 4.952445}
+--- !u!136 &4176028417790540023
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5231770828439784207}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4.17
+  m_Height: 8.1
+  m_Direction: 2
+  m_Center: {x: 0, y: 4.027, z: -3.02}
 --- !u!1 &5368775142961821556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,7 +1880,7 @@ Transform:
   m_GameObject: {fileID: 6680605934323350081}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.8, z: 2.21}
+  m_LocalPosition: {x: 0, y: 10.02, z: 4.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

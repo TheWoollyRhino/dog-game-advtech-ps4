@@ -9,8 +9,8 @@ public class PlayerAnimationHashes : MonoBehaviour
     public Animator animator;
 
     public int isWalkingBool;
-    public int isJoggingBool;
-    public int isPressingBool;
+    public int isRunningBool;
+    public int isPickingUpBool;
     public int isJumpingBool;
 
     private void Awake()
@@ -20,8 +20,8 @@ public class PlayerAnimationHashes : MonoBehaviour
 
         //bools
         isWalkingBool = Animator.StringToHash("isWalking");
-        isJoggingBool = Animator.StringToHash("isJogging");
+        isRunningBool = Animator.StringToHash("isRunning");
         isJumpingBool = Animator.StringToHash("isJumping");
-        isPressingBool = Animator.StringToHash("isPressing");
+        isPickingUpBool = Animator.StringToHash("isPickingUp");
     }
 }
