@@ -28,9 +28,6 @@ public class GSDPlayerController : MonoBehaviour
     private bool requireNewJumpPress;
     private float jumpHorizontalSpeed;
 
-    //interaction variables
-    private bool pickupPressed;
-
     [Header("Controllers")]
     [SerializeField] [Range(0.1f, 1)] private float playerRotationSpeed = 0.4f;
     //[SerializeField] private float staticJumpForce = 3;
@@ -55,9 +52,6 @@ public class GSDPlayerController : MonoBehaviour
 
         playerInput.Player.Jump.started += OnJumpInput;
         playerInput.Player.Jump.canceled += OnJumpInput;  
-        
-        playerInput.Player.Interact.started += OnInteractionInput;
-        playerInput.Player.Interact.canceled += OnInteractionInput;
     }
 
     private void OnEnable()
@@ -94,11 +88,6 @@ public class GSDPlayerController : MonoBehaviour
     {
         runPressed = context.ReadValueAsButton();
     } 
-    
-    void OnInteractionInput(InputAction.CallbackContext context)
-    {
-        pickupPressed = context.ReadValueAsButton();
-    }
 
     void PlayerMovement()
     {
@@ -107,7 +96,7 @@ public class GSDPlayerController : MonoBehaviour
 
         if (onGround)
         {
-            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, false);
+            playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, false);
 
             if (!isWalking && walkPressed)
             {
@@ -125,14 +114,14 @@ public class GSDPlayerController : MonoBehaviour
             {
                 playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, false);
             }
-/*            if (isWalking && pickupPressed)
-            {
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, true);
-            }*/
             if (isRunning && (jumpPressed && !requireNewJumpPress))
             {
                 playerRigidBody.velocity = Vector3.up * runningJumpForce;
                 requireNewJumpPress = true;
+            }
+            else
+            {
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isIdleBool, true);
             }
         }
 

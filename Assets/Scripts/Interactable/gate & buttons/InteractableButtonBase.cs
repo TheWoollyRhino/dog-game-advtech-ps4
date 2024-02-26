@@ -95,7 +95,7 @@ public class InteractableButtonBase : MonoBehaviour
                 playerAnimationHashes.animator.SetBool(playerAnimationHashes.isRunningBool, false);
                 playerAnimationHashes.animator.SetBool(playerAnimationHashes.isJumpingBool, false);
                 player.transform.SetPositionAndRotation(playerInteractPosition.transform.position, Quaternion.LookRotation(playerInteractPosition.transform.right));
-                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, true);
+                playerAnimationHashes.animator.SetBool(playerAnimationHashes.isPickingUpBool, true); // change to pressing bool if u have the animation
 
                 canvas.enabled = false;
                 Destroy(gameObject.GetComponent<SphereCollider>());
