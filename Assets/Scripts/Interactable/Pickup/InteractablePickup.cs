@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 //made by Amrit Chatha
 
-public class InteractablePickupBase : MonoBehaviour
+public class InteractablePickup : MonoBehaviour
 {
 
     [HideInInspector] public bool interactPressed;
@@ -19,10 +19,10 @@ public class InteractablePickupBase : MonoBehaviour
     private bool carrying = false;
 
     [Header("Initializers")]
-    [SerializeField] private Canvas canvas;
+    [SerializeField] public Canvas canvas;
     [SerializeField] private Image interactionImage;
     [SerializeField] private TextMeshProUGUI interactionText;
-    [SerializeField] private GameObject targetPosition;
+    [SerializeField] private GameObject itemPosition;
 
     [Header("Design & Text")]
     [SerializeField] private Sprite sprite;
@@ -80,9 +80,10 @@ public class InteractablePickupBase : MonoBehaviour
 
                     yield return new WaitForSeconds(0.5f);
 
-                    gameObject.transform.parent = targetPosition.transform;
-                    gameObject.transform.position = targetPosition.transform.position;
+                    gameObject.transform.parent = itemPosition.transform;
+                    gameObject.transform.position = itemPosition.transform.position;
                     gameObject.GetComponent<SphereCollider>().enabled = false;
+                    gameObject.GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
                     carrying = true;
                 }
             }
@@ -98,6 +99,7 @@ public class InteractablePickupBase : MonoBehaviour
                     gameObject.transform.parent = null;
                     gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     gameObject.GetComponent<SphereCollider>().enabled = true;
+                    gameObject.GetComponent<BoxCollider>().size = new Vector3(4, 4, 4);
 
                     yield return new WaitForSeconds(0.3f);
 
@@ -107,18 +109,14 @@ public class InteractablePickupBase : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.CompareTag("Player"))
         {
             playerInTrigger = true;
             canvas.enabled = true;
             interactionImage.sprite = sprite;
         }
-        
-
-        // make it so if the ball is not touching the floor then you cant pickup
     }
 
     void OnTriggerExit(Collider other)

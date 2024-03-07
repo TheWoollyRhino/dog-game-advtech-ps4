@@ -76,10 +76,25 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: b93308aad2a050040b442a337227288f, type: 2}
   m_Tag: 
-  m_SpeedParameter: multiplier
+  m_SpeedParameter: Multiplier
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: runSpeedMultiplier
+--- !u!206 &-7512473640463305137
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Walk Forward
+  m_Childs: []
+  m_BlendParameter: Decider
+  m_BlendParameterY: Decider
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1101 &-7340964273872966969
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -284,7 +299,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: d9287e1f8b06fb94ba932b294b288a19, type: 2}
   m_Tag: 
-  m_SpeedParameter: multiplier
+  m_SpeedParameter: Multiplier
   m_MirrorParameter: isWalking
   m_CycleOffsetParameter: 
   m_TimeParameter: runSpeedMultiplier
@@ -389,7 +404,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: multiplier
+  - m_Name: Multiplier
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -408,6 +423,21 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!206 &350246772835553377
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Pickup
+  m_Childs: []
+  m_BlendParameter: Decider
+  m_BlendParameterY: Decider
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1101 &804634708229023403
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -489,6 +519,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!206 &2859904378674170725
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jump
+  m_Childs: []
+  m_BlendParameter: Decider
+  m_BlendParameterY: Decider
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!206 &3332745662203692870
 BlendTree:
   m_ObjectHideFlags: 1
@@ -777,6 +822,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!206 &8357639534772430089
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Run Forward
+  m_Childs: []
+  m_BlendParameter: Decider
+  m_BlendParameterY: Decider
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1101 &8684761611778902021
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
