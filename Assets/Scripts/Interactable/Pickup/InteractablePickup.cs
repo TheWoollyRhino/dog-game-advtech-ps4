@@ -83,7 +83,7 @@ public class InteractablePickup : MonoBehaviour
                     gameObject.transform.parent = itemPosition.transform;
                     gameObject.transform.position = itemPosition.transform.position;
                     gameObject.GetComponent<SphereCollider>().enabled = false;
-                    gameObject.GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+                    gameObject.GetComponent<BoxCollider>().size = new Vector3(1.5f, 1.5f, 1.5f);
                     carrying = true;
                 }
             }

@@ -33,11 +33,14 @@ public class CollectionZone : MonoBehaviour
             return;
         }
 
-        var interactablePickupBase = other.gameObject.GetComponent<InteractablePickup>();
+        var collectableScript = other.gameObject.GetComponent<InteractablePickup>();
+        var collectableTrigger = other.gameObject.GetComponent<BoxCollider>();
 
         collectedObjects.Add(other.gameObject);
-        interactablePickupBase.enabled = false;
-        interactablePickupBase.enabled = false;
-        interactablePickupBase.canvas.enabled = false;
+        collectableTrigger.enabled = false;
+        collectableScript.enabled = false;
+        collectableScript.enabled = false;
+        collectableScript.canvas.enabled = false;
+
     }
 }
