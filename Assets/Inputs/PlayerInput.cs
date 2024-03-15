@@ -196,6 +196,34 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""58e2c798-3b97-40f2-b33b-312b6d4351db"",
+            ""actions"": [
+                {
+                    ""name"": ""BarkSliderFill"",
+                    ""type"": ""Button"",
+                    ""id"": ""9871f33a-b5f4-4197-9e7c-2acabfef6698"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""04561ef0-76d4-4d7e-9117-ce3a720b3db4"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BarkSliderFill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -230,6 +258,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_SteerCamera = m_Player.FindAction("SteerCamera", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_BarkSliderFill = m_UI.FindAction("BarkSliderFill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -365,6 +396,52 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_BarkSliderFill;
+    public struct UIActions
+    {
+        private @PlayerInput m_Wrapper;
+        public UIActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BarkSliderFill => m_Wrapper.m_UI_BarkSliderFill;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @BarkSliderFill.started += instance.OnBarkSliderFill;
+            @BarkSliderFill.performed += instance.OnBarkSliderFill;
+            @BarkSliderFill.canceled += instance.OnBarkSliderFill;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @BarkSliderFill.started -= instance.OnBarkSliderFill;
+            @BarkSliderFill.performed -= instance.OnBarkSliderFill;
+            @BarkSliderFill.canceled -= instance.OnBarkSliderFill;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -390,5 +467,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSteerCamera(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnBarkSliderFill(InputAction.CallbackContext context);
     }
 }

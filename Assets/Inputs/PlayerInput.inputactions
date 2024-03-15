@@ -174,6 +174,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "58e2c798-3b97-40f2-b33b-312b6d4351db",
+            "actions": [
+                {
+                    "name": "BarkSliderFill",
+                    "type": "Button",
+                    "id": "9871f33a-b5f4-4197-9e7c-2acabfef6698",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "04561ef0-76d4-4d7e-9117-ce3a720b3db4",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BarkSliderFill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
