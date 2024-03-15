@@ -68,10 +68,10 @@ public class RPGCameraController : MonoBehaviour
 
         float angleBetween = Vector3.Angle(Vector3.up, transform.forward);
 
-        if (angleBetween > 70.0f && steerCameraInput.y < 0 || angleBetween < 110.0f && steerCameraInput.y > 0)
+        if (angleBetween > 70.0f && -steerCameraInput.y < 0 || angleBetween < 110.0f && -steerCameraInput.y > 0)
         {
             //uses euler angles to rotate. camera rotates relative to the player axis rather than the world axis
-            transform.Rotate(steerCameraInput.y * rotationSpeed / 3.5f, 0, 0, Space.Self);
+            transform.Rotate(-steerCameraInput.y * rotationSpeed / 3.5f, 0, 0, Space.Self);
         }
     }
 

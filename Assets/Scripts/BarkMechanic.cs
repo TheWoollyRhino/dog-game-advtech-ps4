@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class BarkSlider : MonoBehaviour
+public class BarkMechanic : MonoBehaviour
 {
-    private Slider slider;
+    public Slider slider;
     private PlayerInput playerInput; // input action asset
     private bool isCharging = false;
 
@@ -35,28 +35,38 @@ public class BarkSlider : MonoBehaviour
     private void BarkSliderFillStarted(InputAction.CallbackContext context)
     {
         isCharging = true;
-        StartCoroutine(ChargeBarRoutine());
-    }   
-    
+        StartCoroutine(ChargeBar());
+    }
+
     private void BarkSliderFillCancelled(InputAction.CallbackContext context)
     {
         isCharging = false;
     }
 
-    IEnumerator ChargeBarRoutine()
+
+
+    IEnumerator ChargeBar()
     {
         while (isCharging == true)
         {
             slider.value += 1.0f * Time.deltaTime;
+            Bark();
             yield return null;
-        }    
-        
+        }
+
         while (isCharging == false)
         {
             slider.value -= 1.0f * Time.deltaTime;
             yield return null;
         }
+
     }
 
-
+    void Bark()
+    {
+        if (slider.value >= 1.0f)
+        {
+            Debug.Log("Bark sound");
+        }
+    }
 }

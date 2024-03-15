@@ -84,6 +84,8 @@ public class InteractablePickup : MonoBehaviour
                     gameObject.transform.position = itemPosition.transform.position;
                     gameObject.GetComponent<SphereCollider>().enabled = false;
                     gameObject.GetComponent<BoxCollider>().size = new Vector3(1.5f, 1.5f, 1.5f);
+                    gameObject.GetComponent<BoxCollider>().center = new Vector3(0, 0.7f, -0.6f);
+
                     carrying = true;
                 }
             }
@@ -100,6 +102,7 @@ public class InteractablePickup : MonoBehaviour
                     gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     gameObject.GetComponent<SphereCollider>().enabled = true;
                     gameObject.GetComponent<BoxCollider>().size = new Vector3(4, 4, 4);
+                    gameObject.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
 
                     yield return new WaitForSeconds(0.3f);
 
@@ -109,7 +112,7 @@ public class InteractablePickup : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
